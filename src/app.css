@@ -2,79 +2,79 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-  --font-sans: 'Monaspace Krypton NF', system-ui, sans-serif;
-  --font-wide: 'Monaspace Krypton NF Wide', system-ui, sans-serif;
-  --font-semiwide: 'Monaspace Krypton NF SemiWide', system-ui, sans-serif;
+	--font-sans: 'Monaspace Krypton NF', system-ui, sans-serif;
+	--font-wide: 'Monaspace Krypton NF Wide', system-ui, sans-serif;
+	--font-semiwide: 'Monaspace Krypton NF SemiWide', system-ui, sans-serif;
 }
 
 /* Regular */
 @font-face {
-  font-family: "Monaspace Krypton NF";
-  src: url("/fonts/MonaspaceKryptonNF-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+	font-family: 'Monaspace Krypton NF';
+	src: url('/fonts/MonaspaceKryptonNF-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
 }
 
 /* Italic */
 @font-face {
-  font-family: "Monaspace Krypton NF";
-  src: url("/fonts/MonaspaceKryptonNF-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
+	font-family: 'Monaspace Krypton NF';
+	src: url('/fonts/MonaspaceKryptonNF-Italic.woff2') format('woff2');
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
 }
 
 /* Medium */
 @font-face {
-  font-family: "Monaspace Krypton NF";
-  src: url("/fonts/MonaspaceKryptonNF-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
+	font-family: 'Monaspace Krypton NF';
+	src: url('/fonts/MonaspaceKryptonNF-Medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
 }
 
 /* Medium Italic */
 @font-face {
-  font-family: "Monaspace Krypton NF";
-  src: url("/fonts/MonaspaceKryptonNF-MediumItalic.woff2") format("woff2");
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
+	font-family: 'Monaspace Krypton NF';
+	src: url('/fonts/MonaspaceKryptonNF-MediumItalic.woff2') format('woff2');
+	font-weight: 500;
+	font-style: italic;
+	font-display: swap;
 }
 
 /* SemiBold */
 @font-face {
-  font-family: "Monaspace Krypton NF";
-  src: url("/fonts/MonaspaceKryptonNF-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
+	font-family: 'Monaspace Krypton NF';
+	src: url('/fonts/MonaspaceKryptonNF-SemiBold.woff2') format('woff2');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
 }
 
 /* SemiBold Italic */
 @font-face {
-  font-family: "Monaspace Krypton NF";
-  src: url("/fonts/MonaspaceKryptonNF-SemiBoldItalic.woff2") format("woff2");
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
+	font-family: 'Monaspace Krypton NF';
+	src: url('/fonts/MonaspaceKryptonNF-SemiBoldItalic.woff2') format('woff2');
+	font-weight: 600;
+	font-style: italic;
+	font-display: swap;
 }
 
 /* Bold */
 @font-face {
-  font-family: "Monaspace Krypton NF";
-  src: url("/fonts/MonaspaceKryptonNF-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+	font-family: 'Monaspace Krypton NF';
+	src: url('/fonts/MonaspaceKryptonNF-Bold.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
 }
 
 /* Bold Italic */
 @font-face {
-  font-family: "Monaspace Krypton NF";
-  src: url("/fonts/MonaspaceKryptonNF-BoldItalic.woff2") format("woff2");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
+	font-family: 'Monaspace Krypton NF';
+	src: url('/fonts/MonaspaceKryptonNF-BoldItalic.woff2') format('woff2');
+	font-weight: 700;
+	font-style: italic;
+	font-display: swap;
 }
