@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import type { PathnameWithSearchOrHash } from '$app/types';
 
 	type Props = {
 		title: string;
@@ -7,7 +8,7 @@
 		icon?: string;
 		image?: string;
 		imageAlt?: string;
-		href: string;
+		href: PathnameWithSearchOrHash;
 	};
 
 	let {

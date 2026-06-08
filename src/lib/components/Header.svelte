@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import type { PathnameWithSearchOrHash } from '$app/types';
 
 	type Tab = {
 		name: string;
-		link: string;
+		link: PathnameWithSearchOrHash;
 	};
 
 	type Props = {

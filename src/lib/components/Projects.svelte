@@ -1,12 +1,13 @@
 <script lang="ts">
 	import InterestBlock from '$lib/components/InterestBlock.svelte';
+	import type { PathnameWithSearchOrHash } from '$app/types';
 
 	type Project = {
 		title: string;
 		subtitle: string;
 		icon: string;
 		image: string;
-		href: string;
+		href: PathnameWithSearchOrHash;
 	};
 
 	const projects: Project[] = [
