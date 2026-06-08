@@ -1,11 +1,17 @@
 <script lang="ts">
-	import './layout.css';
-	
+	import "../app.css";
+
 	import favicon from '$lib/assets/favicon.svg';
+	import Header from '$lib/components/Header.svelte';
+	
 
 	let { children } = $props();
-	import "../app.css";
+	let y = $state(0);
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
+
+<svelte:window bind:scrollY={y} />
+
+<Header {y} />
 {@render children()}
