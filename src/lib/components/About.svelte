@@ -1,9 +1,25 @@
+<script lang="ts">
+	type Props = {
+		switchAt?: number;
+	};
+
+	let { switchAt = 420 }: Props = $props();
+	let y = $state(0);
+	let heading = $derived(
+		y >= switchAt
+			? 'I make cool things for dumb reasons.'
+			: 'I like turning ideas into useful, polished products...'
+	);
+</script>
+
+<svelte:window bind:scrollY={y} />
+
 <section id="about" class="px-6 py-20">
 	<div class="mx-auto grid max-w-5xl gap-10 md:grid-cols-[0.8fr_1.2fr] md:items-start">
 		<div>
 			<p class="text-sm font-medium tracking-[0.3em] text-neutral-500 uppercase">About Me</p>
 			<h2 class="mt-4 text-3xl font-bold tracking-tight text-black sm:text-4xl">
-				I like turning ideas into useful, polished products.
+				{heading}
 			</h2>
 		</div>
 

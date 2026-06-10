@@ -13,24 +13,48 @@
 	const projects: Project[] = [
 		{
 			title: 'Portfolio Website',
-			subtitle: 'A responsive SvelteKit site for showcasing projects, skills, and contact details.',
+			subtitle: 'An interactive website that shows my projects and cool things I have done.',
 			icon: '⌘',
 			image: '/projects/portfolio-preview.svg',
 			href: '/projects/portfolio-website'
 		},
 		{
-			title: 'API Dashboard',
-			subtitle: 'A clean interface for viewing backend data, request status, and useful metrics.',
-			icon: '{}',
-			image: '/projects/dashboard-preview.svg',
-			href: '/projects/api-dashboard'
+			title: 'MBTA Line Reliability VS Ridership',
+			subtitle:
+				'Interactive visualizations exploring the relationship between MBTA ridership and system reliability.',
+			icon: 'D3',
+			image: '/projects/portfolio-preview.svg',
+			href: '/projects/mbta-reliability-ridership'
 		},
 		{
-			title: 'Task Manager',
-			subtitle: 'A practical productivity app with organized lists, filters, and simple workflows.',
-			icon: '✓',
+			title: 'LifeLeveler',
+			subtitle: 'A goal-planning backend that uses AI to break big goals into actionable steps.',
+			icon: 'AI',
+			image: '/projects/dashboard-preview.svg',
+			href: '/projects/lifeleveler'
+		},
+		{
+			title: 'NYPD Arrests Analysis',
+			subtitle:
+				'Tableau and Excel analysis of 150,000+ NYPD arrest records to surface policing patterns.',
+			icon: 'NYC',
 			image: '/projects/tasks-preview.svg',
-			href: '/projects/task-manager'
+			href: '/projects/nypd-arrests-analysis'
+		},
+		{
+			title: 'MFA Lock',
+			subtitle:
+				'A distributed multi-factor smart lock using Raspberry Pi, Flask, Socket.IO, and sensors.',
+			icon: '🔒',
+			image: '/projects/dashboard-preview.svg',
+			href: '/projects/mfa-lock'
+		},
+		{
+			title: 'Excel to iCalendar Converter',
+			subtitle: 'A Python script that converts a Brandeis Workday schedule into a calendar file.',
+			icon: 'ICS',
+			image: '/projects/tasks-preview.svg',
+			href: '/projects/excel-to-ics'
 		}
 	];
 </script>

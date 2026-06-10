@@ -1,3 +1,7 @@
+<script lang="ts">
+	import TerminalTyping from '$lib/components/TerminalTyping.svelte';
+</script>
+
 <section class="px-6 pt-20 pb-16 sm:pt-24 sm:pb-20">
 	<div class="mx-auto flex max-w-5xl flex-col gap-8">
 		<p class="text-sm font-medium tracking-[0.3em] text-neutral-500 uppercase">
@@ -7,6 +11,7 @@
 		<div class="space-y-6">
 			<h1 class="max-w-4xl text-5xl font-bold tracking-tight sm:text-6xl">
 				I like building and solving problems.
+				<TerminalTyping text="ship()" />
 			</h1>
 
 			<p class="max-w-2xl text-lg leading-8 text-neutral-600">

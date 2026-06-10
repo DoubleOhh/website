@@ -57,13 +57,14 @@
             />
             <h4 class="relative z-9">Login</h4>
         </button> -->
-		<button
+		<a
+			href={resolve('/#contact')}
 			class={'relative overflow-hidden rounded-full px-5 py-2 text-sm font-semibold transition ' +
 				(isScrolled
 					? 'bg-white text-black hover:bg-neutral-200'
 					: 'bg-black text-white hover:bg-neutral-800')}
 		>
 			Get in touch
-		</button>
+		</a>
 	</div>
 </header>
