@@ -138,7 +138,9 @@
 						<p class="text-sm font-semibold text-black">Technologies Used</p>
 						<div class="mt-3 flex flex-wrap gap-2">
 							{#each visibleTools as tool (tool)}
-								<span class="rounded-full border border-neutral-300 px-3 py-1.5 text-sm font-medium">
+								<span
+									class="rounded-full border border-neutral-300 px-3 py-1.5 text-sm font-medium"
+								>
 									{tool}
 								</span>
 							{/each}
