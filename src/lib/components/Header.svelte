@@ -27,7 +27,7 @@
 </script>
 
 <header
-	class={'sticky top-0 z-[10] flex items-center justify-between border-b border-solid px-6 duration-200 ' +
+	class={'sticky top-0 z-10 flex items-center justify-between border-b border-solid px-6 duration-200 ' +
 		(isScrolled
 			? ' border-neutral-800 bg-black/90 py-4 text-white backdrop-blur'
 			: ' border-transparent bg-transparent py-6')}
