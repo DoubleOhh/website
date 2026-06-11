@@ -6,17 +6,40 @@
 	type Project = {
 		title: string;
 		description: string;
+		details?: string[];
 		image: string;
+		images?: string[];
 		tools: string[];
 		githubUrl?: string;
 	};
+
+	const visibleToolCount = 4;
 
 	const projects: Record<string, Project> = {
 		'portfolio-website': {
 			title: 'Portfolio Website',
 			description: 'An interactive website that shows my projects and cool things I have done',
+			details: [
+				'Designed and deployed a production-style portfolio website using SvelteKit and AWS, with a focus on cloud infrastructure, automation, and Infrastructure as Code principles.',
+				'The frontend was built with SvelteKit and deployed as a static site to Amazon S3. To improve performance, security, and scalability, the site is served globally through Amazon CloudFront, providing HTTPS encryption, edge caching, and low-latency content delivery. A custom domain was configured using DNS records and AWS Certificate Manager (ACM) to enable secure access over TLS.',
+				'The deployment process is fully automated through GitHub Actions. Every push to the release branch triggers a CI/CD pipeline that installs dependencies, builds the SvelteKit application, synchronizes the generated static assets to Amazon S3, and invalidates the CloudFront cache to ensure visitors always receive the latest version of the site.',
+				'To follow AWS security best practices, the deployment workflow uses GitHub OpenID Connect (OIDC) federation to assume an IAM role at deployment time. This eliminates the need for long-lived AWS access keys and provides short-lived, least-privilege credentials during each workflow run.',
+				'Infrastructure components, including CloudFront configuration, bucket policies, IAM trust policies, and deployment permissions, are maintained in source control to document and reproduce the environment. The project demonstrates practical experience with AWS CLI, IAM, S3, CloudFront, ACM, DNS management, CI/CD pipelines, GitHub Actions, and cloud security best practices.'
+			],
 			image: '/projects/portfolio-preview.svg',
-			tools: ['SvelteKit', 'TypeScript', 'Tailwind CSS'],
+			tools: [
+				'SvelteKit',
+				'TypeScript',
+				'AWS S3',
+				'AWS CloudFront',
+				'AWS Certificate Manager',
+				'AWS IAM',
+				'GitHub Actions',
+				'GitHub OIDC Federation',
+				'AWS CLI',
+				'DNS Management',
+				'Infrastructure as Code Concepts'
+			],
 			githubUrl: 'https://github.com/DoubleOhh/website'
 		},
 		'mbta-reliability-ridership': {
@@ -62,6 +85,12 @@
 
 	let slug = $derived(page.params.slug ?? '');
 	let project = $derived(projects[slug]);
+	let projectImages = $derived(project ? (project.images ?? [project.image]) : []);
+	let showAllTools = $state(false);
+	let visibleTools = $derived(
+		project ? (showAllTools ? project.tools : project.tools.slice(0, visibleToolCount)) : []
+	);
+	let hiddenToolCount = $derived(project ? project.tools.length - visibleTools.length : 0);
 </script>
 
 <section class="px-6 py-20">
@@ -75,11 +104,15 @@
 			</a>
 
 			<div class="mt-8 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-				<img
-					src={project.image}
-					alt={`${project.title} preview`}
-					class="w-full rounded-2xl border border-neutral-200 object-cover shadow-sm"
-				/>
+				<div class="grid gap-4">
+					{#each projectImages as image, index (image)}
+						<img
+							src={image}
+							alt={`${project.title} preview ${index + 1}`}
+							class="w-full rounded-2xl border border-neutral-200 object-cover shadow-sm"
+						/>
+					{/each}
+				</div>
 
 				<div>
 					<p class="text-sm font-medium tracking-[0.3em] text-neutral-500 uppercase">Project</p>
@@ -101,15 +134,41 @@
 						</button>
 					{/if}
 
-					<div class="mt-8 flex flex-wrap gap-3">
-						{#each project.tools as tool (tool)}
-							<span class="rounded-full border border-neutral-300 px-4 py-2 text-sm font-medium">
-								{tool}
-							</span>
-						{/each}
+					<div class="mt-8">
+						<p class="text-sm font-semibold text-black">Technologies Used</p>
+						<div class="mt-3 flex flex-wrap gap-2">
+							{#each visibleTools as tool (tool)}
+								<span class="rounded-full border border-neutral-300 px-3 py-1.5 text-sm font-medium">
+									{tool}
+								</span>
+							{/each}
+						</div>
+
+						{#if project.tools.length > visibleToolCount}
+							<button
+								type="button"
+								onclick={() => (showAllTools = !showAllTools)}
+								class="mt-3 text-sm font-semibold text-neutral-600 transition hover:text-black"
+							>
+								{showAllTools ? 'Show less' : `Show ${hiddenToolCount} more`}
+							</button>
+						{/if}
 					</div>
 				</div>
 			</div>
+
+			{#if project.details?.length}
+				<div class="mt-16 border-t border-neutral-200 pt-12">
+					<p class="text-sm font-medium tracking-[0.3em] text-neutral-500 uppercase">
+						Project Deep Dive
+					</p>
+					<div class="mt-6 max-w-3xl space-y-5 text-lg leading-8 text-neutral-600">
+						{#each project.details as paragraph (paragraph)}
+							<p>{paragraph}</p>
+						{/each}
+					</div>
+				</div>
+			{/if}
 		{:else}
 			<div class="max-w-2xl">
 				<p class="text-sm font-medium tracking-[0.3em] text-neutral-500 uppercase">Project</p>
