@@ -32,12 +32,13 @@
 			? ' border-neutral-800 bg-black/90 py-4 text-white backdrop-blur'
 			: ' border-transparent bg-transparent py-6')}
 >
-	<h1 class="font-bold tracking-tight">
+	<a href={resolve('/')} class="font-bold tracking-tight">
 		Omorogieva
 		<span class={'font-medium ' + (isScrolled ? 'text-neutral-300' : 'text-neutral-600')}>
 			Ogieva
 		</span>
-	</h1>
+	</a>
+
 	<div class="hidden items-center gap-4 sm:flex">
 		{#each tabs as tab, index (tab.link)}
 			<a
