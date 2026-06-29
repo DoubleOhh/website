@@ -9,8 +9,18 @@
 		details?: string[];
 		image: string;
 		images?: string[];
+		media?: ProjectMedia[];
 		tools: string[];
 		githubUrl?: string;
+		slidesUrl?: string;
+	};
+
+	type ProjectMedia = {
+		type: 'image' | 'video' | 'youtube';
+		src: string;
+		alt?: string;
+		poster?: string;
+		title?: string;
 	};
 
 	const visibleToolCount = 4;
@@ -27,6 +37,23 @@
 				'Infrastructure components, including CloudFront configuration, bucket policies, IAM trust policies, and deployment permissions, are maintained in source control to document and reproduce the environment. The project demonstrates practical experience with AWS CLI, IAM, S3, CloudFront, ACM, DNS management, CI/CD pipelines, GitHub Actions, and cloud security best practices.'
 			],
 			image: '/projects/portfolio-preview.svg',
+			media: [
+				{
+					type: 'image',
+					src: '/projects/portfolio-preview.svg',
+					alt: 'Portfolio website homepage preview'
+				},
+				{
+					type: 'image',
+					src: '/projects/dashboard-preview.svg',
+					alt: 'Portfolio website project page preview'
+				},
+				{
+					type: 'image',
+					src: '/projects/tasks-preview.svg',
+					alt: 'Portfolio website deployment preview'
+				}
+			],
 			tools: [
 				'SvelteKit',
 				'TypeScript',
@@ -47,6 +74,19 @@
 			description:
 				"This project explores the relationship between MBTA ridership and system reliability using interactive visualizations. Developed as part of COSI 116A: Information Visualization at Brandeis University, this project uses data from the MBTA's open data portal to help users understand trends and patterns in public transportation performance.",
 			image: '/projects/portfolio-preview.svg',
+			media: [
+				{
+					type: 'image',
+					src: '/projects/portfolio-preview.svg',
+					alt: 'MBTA reliability and ridership project preview'
+				},
+				{
+					type: 'video',
+					src: '/projects/mbta-reliability-ridership/demo-video.mp4',
+					poster: '/projects/portfolio-preview.svg',
+					title: 'MBTA reliability and ridership demo video'
+				}
+			],
 			tools: ['JavaScript', 'D3.js'],
 			githubUrl: 'https://github.com/amiefeng/COSI116A-Fall24-Team4'
 		},
@@ -70,8 +110,21 @@
 			description:
 				'Engineered a distributed authentication smart lock using two Raspberry Pi devices, Flask, Socket.IO, serial communication, and subprocess orchestration. The system supports facial, voice, and keypad recognition, a real-time dashboard, touchscreen UI, event logging, and TCP-based lock actuation through servo control.',
 			image: '/projects/dashboard-preview.svg',
+			media: [
+				...Array.from({ length: 19 }, (_, index) => ({
+					type: 'image' as const,
+					src: `/projects/mfa-lock/slide-${String(index + 1).padStart(2, '0')}.png`,
+					alt: `MFA Lock project slide ${index + 1}`
+				})),
+				{
+					type: 'youtube',
+					src: 'https://www.youtube.com/embed/bCD5fVvEwWU',
+					title: 'MFA Lock project demo video'
+				}
+			],
 			tools: ['MicroPython', 'Python', 'Vosk', 'Flask', 'Socket.IO', 'Git'],
-			githubUrl: 'https://github.com/jameskong098/mfalock'
+			githubUrl: 'https://github.com/jameskong098/mfalock',
+			slidesUrl: '/projects/mfa-lock/mfa-lock-project.pdf'
 		},
 		'excel-to-ics': {
 			title: 'Excel to iCalendar Converter',
@@ -85,12 +138,47 @@
 
 	let slug = $derived(page.params.slug ?? '');
 	let project = $derived(projects[slug]);
-	let projectImages = $derived(project ? (project.images ?? [project.image]) : []);
+	let projectMedia = $derived(
+		project
+			? (project.media ??
+					project.images?.map((src, index) => ({
+						type: 'image' as const,
+						src,
+						alt: `${project.title} preview ${index + 1}`
+					})) ?? [
+						{
+							type: 'image' as const,
+							src: project.image,
+							alt: `${project.title} preview`
+						}
+					])
+			: []
+	);
+	let activeMediaIndex = $state(0);
+	let activeMedia = $derived(projectMedia[activeMediaIndex] ?? projectMedia[0]);
 	let showAllTools = $state(false);
 	let visibleTools = $derived(
 		project ? (showAllTools ? project.tools : project.tools.slice(0, visibleToolCount)) : []
 	);
 	let hiddenToolCount = $derived(project ? project.tools.length - visibleTools.length : 0);
+
+	$effect(() => {
+		slug;
+		activeMediaIndex = 0;
+		showAllTools = false;
+	});
+
+	function showPreviousMedia() {
+		if (!projectMedia.length) return;
+
+		activeMediaIndex = (activeMediaIndex - 1 + projectMedia.length) % projectMedia.length;
+	}
+
+	function showNextMedia() {
+		if (!projectMedia.length) return;
+
+		activeMediaIndex = (activeMediaIndex + 1) % projectMedia.length;
+	}
 </script>
 
 <section class="px-6 py-20">
@@ -105,13 +193,84 @@
 
 			<div class="mt-8 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
 				<div class="grid gap-4">
-					{#each projectImages as image, index (image)}
-						<img
-							src={image}
-							alt={`${project.title} preview ${index + 1}`}
-							class="w-full rounded-2xl border border-neutral-200 object-cover shadow-sm"
-						/>
-					{/each}
+					<div
+						class="overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50 shadow-sm"
+					>
+						{#if activeMedia?.type === 'video'}
+							<video
+								src={activeMedia.src}
+								poster={activeMedia.poster}
+								controls
+								playsinline
+								class="aspect-video w-full bg-black object-contain"
+							>
+								<track kind="captions" />
+							</video>
+						{:else if activeMedia?.type === 'youtube'}
+							<iframe
+								src={activeMedia.src}
+								title={activeMedia.title ?? `${project.title} video`}
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowfullscreen
+								class="aspect-video w-full border-0 bg-black"
+							></iframe>
+						{:else if activeMedia}
+							<img
+								src={activeMedia.src}
+								alt={activeMedia.alt ?? `${project.title} preview ${activeMediaIndex + 1}`}
+								class="aspect-video w-full object-contain"
+							/>
+						{/if}
+					</div>
+
+					{#if projectMedia.length > 1}
+						<div class="flex items-center justify-between gap-3">
+							<button
+								type="button"
+								onclick={showPreviousMedia}
+								class="rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold transition hover:border-black hover:text-black"
+							>
+								Previous
+							</button>
+							<p class="text-sm font-medium text-neutral-500">
+								{activeMediaIndex + 1} / {projectMedia.length}
+							</p>
+							<button
+								type="button"
+								onclick={showNextMedia}
+								class="rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold transition hover:border-black hover:text-black"
+							>
+								Next
+							</button>
+						</div>
+
+						<div class="grid grid-cols-4 gap-3 sm:grid-cols-5">
+							{#each projectMedia as media, index (media.src)}
+								<button
+									type="button"
+									onclick={() => (activeMediaIndex = index)}
+									aria-label={`Show ${project.title} media ${index + 1}`}
+									aria-current={activeMediaIndex === index}
+									class="aspect-video overflow-hidden rounded-lg border bg-neutral-50 text-xs font-semibold text-neutral-500 transition {activeMediaIndex ===
+									index
+										? 'border-black'
+										: 'border-neutral-200 hover:border-neutral-400'}"
+								>
+									{#if media.type === 'video'}
+										{#if media.poster}
+											<img src={media.poster} alt="" class="h-full w-full object-cover" />
+										{:else}
+											<span class="grid h-full place-items-center">Video {index + 1}</span>
+										{/if}
+									{:else if media.type === 'youtube'}
+										<span class="grid h-full place-items-center bg-black text-white"> Video </span>
+									{:else}
+										<img src={media.src} alt="" class="h-full w-full object-cover" />
+									{/if}
+								</button>
+							{/each}
+						</div>
+					{/if}
 				</div>
 
 				<div>
@@ -124,14 +283,28 @@
 						{project.description}
 					</p>
 
-					{#if project.githubUrl}
-						<button
-							type="button"
-							onclick={() => window.open(project.githubUrl, '_blank', 'noreferrer')}
-							class="mt-8 inline-flex rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-neutral-800"
-						>
-							View on GitHub
-						</button>
+					{#if project.githubUrl || project.slidesUrl}
+						<div class="mt-8 flex flex-wrap gap-3">
+							{#if project.githubUrl}
+								<button
+									type="button"
+									onclick={() => window.open(project.githubUrl, '_blank', 'noreferrer')}
+									class="inline-flex rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-neutral-800"
+								>
+									View on GitHub
+								</button>
+							{/if}
+
+							{#if project.slidesUrl}
+								<button
+									type="button"
+									onclick={() => window.open(project.slidesUrl, '_blank', 'noreferrer')}
+									class="inline-flex rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold transition hover:border-black hover:text-black"
+								>
+									View Slides
+								</button>
+							{/if}
+						</div>
 					{/if}
 
 					<div class="mt-8">
