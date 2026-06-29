@@ -8,7 +8,7 @@
 	let y = $state(0);
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head><title>One of One</title><link rel="icon" href={favicon} /></svelte:head>
 
 <svelte:window bind:scrollY={y} />
 
